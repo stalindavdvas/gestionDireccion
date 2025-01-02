@@ -426,9 +426,36 @@ if (!isset($_SESSION['loggedin'])) {
                 $('.modal-backdrop').remove(); // Elimina cualquier backdrop restante
                 $('body').css('overflow', ''); // Asegura que se reactive el scroll
             });
+
+
+            function validarCedula(cedula) {
+                if (cedula.length !== 10) return false;
+
+                const provincia = parseInt(cedula.substring(0, 2), 10);
+                if (provincia < 1 || (provincia > 24 && provincia !== 30)) return false;
+
+                const coeficientes = [2, 1, 2, 1, 2, 1, 2, 1, 2];
+                let suma = 0;
+
+                for (let i = 0; i < 9; i++) {
+                    let digito = parseInt(cedula[i]) * coeficientes[i];
+                    if (digito >= 10) digito -= 9;
+                    suma += digito;
+                }
+
+                const digitoVerificador = parseInt(cedula[9]);
+                const sumaMod10 = suma % 10 === 0 ? 0 : 10 - (suma % 10);
+
+                return sumaMod10 === digitoVerificador;
+            }
             // Manejar el formulario de agregar cliente
             $('#formAgregar').on('submit', function(e) {
                 e.preventDefault();
+                const cedula = $('#DNI').val(); // Captura el valor del campo DNI
+                if (!validarCedula(cedula)) {
+                    showToast('danger', 'Cédula inválida');
+                    return; // Detener si la cédula es inválida
+                }
                 $.ajax({
                     url: '../actions/add_cliente.php',
                     type: 'POST',
@@ -522,6 +549,7 @@ if (!isset($_SESSION['loggedin'])) {
             sidebar.classList.add('collapse');
         }
     </script>
+
 
 </body>
 

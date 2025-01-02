@@ -1,141 +1,129 @@
 <?php
 session_start();
+error_reporting(E_ALL & ~E_NOTICE);
+error_reporting(0);
 if (!isset($_SESSION['loggedin'])) {
     header("Location: ../index.php");
     exit;
 }
 ?>
-<!doctype html>
-<html lang="en" data-bs-theme="auto">
+<!DOCTYPE html>
+<html lang="es">
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    <!-- Agregar Bootstrap 5.3 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            user-select: none;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-
-        .b-example-divider {
-            width: 100%;
-            height: 3rem;
-            background-color: rgba(0, 0, 0, .1);
-            border: solid rgba(0, 0, 0, .15);
-            border-width: 1px 0;
-            box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-        }
-
-        .b-example-vr {
-            flex-shrink: 0;
-            width: 1.5rem;
-            height: 100vh;
-        }
-
-        .bi {
-            vertical-align: -.125em;
-            fill: currentColor;
-        }
-
-        .nav-scroller {
-            position: relative;
-            z-index: 2;
-            height: 2.75rem;
-            overflow-y: hidden;
-        }
-
-        .nav-scroller .nav {
-            display: flex;
-            flex-wrap: nowrap;
-            padding-bottom: 1rem;
-            margin-top: -1px;
-            overflow-x: auto;
-            text-align: center;
-            white-space: nowrap;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .btn-bd-primary {
-            --bd-violet-bg: #712cf9;
-            --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
-
-            --bs-btn-font-weight: 600;
-            --bs-btn-color: var(--bs-white);
-            --bs-btn-bg: var(--bd-violet-bg);
-            --bs-btn-border-color: var(--bd-violet-bg);
-            --bs-btn-hover-color: var(--bs-white);
-            --bs-btn-hover-bg: #6528e0;
-            --bs-btn-hover-border-color: #6528e0;
-            --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
-            --bs-btn-active-color: var(--bs-btn-hover-color);
-            --bs-btn-active-bg: #5a23c8;
-            --bs-btn-active-border-color: #5a23c8;
-        }
-
-        .bd-mode-toggle {
-            z-index: 1500;
-        }
-
-        .bd-mode-toggle .dropdown-menu .active .bi {
-            display: block !important;
-        }
-    </style>
-
-
-    <!-- Custom styles for this template -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
-    <!-- Custom styles for this template -->
-    <link href="../css/dashboard.css" rel="stylesheet">
-    <link href="../css/sidebar.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 
 <body>
-    
-            <!-- <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
-                <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center"
-                    id="bd-theme"
-                    type="button"
-                    aria-expanded="false"
-                    data-bs-toggle="dropdown"
-                    aria-label="Toggle theme (auto)">
-                    <svg class="bi my-1 theme-icon-active" width="1em" height="1em">
-                        <use href="#circle-half"></use>
-                    </svg>
-                    <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
-                </button>
-                
-            </div> -->
+    <!-- Botón toggle de Bootstrap -->
+    <button class="btn sidebar-toggler" type="button" id="sidebarToggle">
+        <i class="bi bi-list"></i>
+    </button>
+    <!-- Sidebar -->
+    <?php include('sidebar.php'); ?>
 
-
-    <?php include('navbar.php');?>
-    <div class="container-fluid">
-        <div class="row">
-           <?php include('sidebar.php');?>
-
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-               
-
-                <h2>Página de Inicio</h2>
-                <div class="table-responsive small">
-                    
+    <!-- Contenido principal -->
+    <div class="content">
+        <div class="container-fluid">
+            <h4>Inicio</h4>
+            <div class="row">
+                <div class="col">
+                </div>   
+            </div>
+            <div class="row">
+                <div class="col">
+                  
                 </div>
-            </main>
+            </div>
+            <!-- Toast container -->
+            <div class="toast-container position-fixed bottom-0 end-0 p-3">
+                <div id="liveToast" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body" id="toastMessage">
+                            Este es un mensaje de ejemplo.
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- Agregar jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
+    <!-- Agregar Bootstrap 5 (solo una vez) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="../js/sidebars.js"></script>
+
+    <!-- Agregar DataTables JS -->
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+
+   
+    <script>
+        // Función para mostrar toast
+        function showToast(type, message) {
+            var toastElement = document.getElementById('liveToast');
+            var toastMessage = document.getElementById('toastMessage');
+
+            // Restablecer las clases del toast
+            toastElement.className = 'toast align-items-center border-0';
+
+            // Cambiar el estilo del toast según el tipo
+            if (type === 'success') {
+                toastElement.classList.add('text-bg-success');
+            } else if (type === 'danger') {
+                toastElement.classList.add('text-bg-danger');
+            } else if (type === 'warning') {
+                toastElement.classList.add('text-bg-warning');
+            } else {
+                toastElement.classList.add('text-bg-primary'); // Default a primary si no es otro tipo
+            }
+
+            // Cambiar el mensaje del toast
+            toastMessage.textContent = message;
+
+            // Mostrar el toast
+            var toast = new bootstrap.Toast(toastElement);
+            toast.show();
+        }
+    </script>
+    <script>
+        // Seleccionamos el botón y el sidebar
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggleButton = document.getElementById('sidebarToggle');
+
+        // Escuchamos el clic en el botón toggle
+        sidebarToggleButton.addEventListener('click', function() {
+            sidebar.classList.toggle('show'); // Usamos la clase show para mostrar u ocultar el sidebar
+        });
+
+        // Asegurarse de que el sidebar se vuelva a mostrar en pantallas grandes
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                sidebar.classList.add('show');
+                sidebar.classList.remove('collapse'); // Aseguramos que el sidebar esté visible en pantallas grandes
+            } else {
+                // Si se colapsa en pantallas pequeñas, se mantiene colapsado
+                if (!sidebar.classList.contains('show')) {
+                    sidebar.classList.add('collapse');
+                }
+            }
+        });
+
+        // Inicializar el estado del sidebar para pantallas pequeñas
+        if (window.innerWidth <= 768) {
+            sidebar.classList.remove('show');
+            sidebar.classList.add('collapse');
+        }
+    </script>
+
 </body>
 
 </html>
