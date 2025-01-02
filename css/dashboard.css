@@ -1,0 +1,103 @@
+/* Estilo adicional para el sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;
+    background-color: #343a40;
+    color: white;
+    padding-top: 30px;
+    z-index: 1;
+    transition: transform 0.3s ease-in-out;
+}
+
+.sidebar a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    display: block;
+    font-size: 18px;
+}
+
+.sidebar a:hover {
+    background-color: #575d63;
+}
+
+.content {
+    margin-left: 250px;
+    padding: 20px;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+
+/* Responsividad para el sidebar */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        /* Sidebar oculto por defecto */
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+    }
+
+    .sidebar.show {
+        transform: translateX(0);
+        /* Sidebar visible cuando tiene la clase 'show' */
+    }
+
+    .content {
+        margin-left: 0;
+        /* El contenido ocupará todo el ancho cuando el sidebar esté oculto */
+    }
+
+    /* Mostrar el botón toggle en dispositivos pequeños */
+    .sidebar-toggler {
+        display: block;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 9999;
+        background-color: #007bff;
+        border: none;
+        color: white;
+        font-size: 30px;
+        cursor: pointer;
+        padding: 10px;
+    }
+}
+
+/* Ocultar el botón toggle en pantallas grandes */
+@media (min-width: 769px) {
+    .sidebar-toggler {
+        display: none;
+    }
+
+    .sidebar {
+        transform: translateX(0);
+        /* Mostrar el sidebar en pantallas grandes */
+    }
+
+    .content {
+        margin-left: 250px;
+        /* Aseguramos que el contenido esté al lado del sidebar */
+    }
+}
+
+.table i {
+    font-size: 9px;
+    /* Ajusta el tamaño aquí */
+}
+
+/* Ajustar el ancho de las celdas a su contenido */
+#clientesTable {
+table-layout: auto; /* Esto ajusta la tabla al contenido */
+width: 100%; /* Asegura que la tabla ocupe todo el ancho disponible */
+}
+
+/* Opcionalmente, puedes ajustar el tamaño de las columnas */
+#clientesTable th, #clientesTable td {
+white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+padding: 8px; /* Ajusta el espaciado dentro de las celdas */
+}
