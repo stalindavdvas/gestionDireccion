@@ -23,8 +23,9 @@ $columns = array(
         'dt' => 10,
         'formatter' => function( $d, $row ) {
             return '
-            <button class="btn btn-sm btn-warning editar d-inline" data-id="'.$d.'"><i class="bi bi-pen"></i></button> 
-                    <button class="btn btn-sm btn-danger eliminar d-inline" data-id="'.$d.'"><i class="bi bi-trash"></i></button>';
+            <button class="btn btn-sm btn-warning editar d-inline" title="Editar" data-id="'.$d.'"><i class="bi bi-pen"></i></button> 
+            <button class="btn btn-sm btn-danger eliminar d-inline" title="Eliminar" data-id="'.$d.'"><i class="bi bi-trash"></i></button>
+            <button class="btn btn-sm btn-primary agregar-direccion d-inline" title="Ver Direcciones" data-id="'.$d.'"><i class="bi bi-geo-alt"></i></button>';
         }
     ),
 );
