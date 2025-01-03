@@ -201,6 +201,11 @@ if (!isset($_SESSION['loggedin'])) {
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
+                                        <!-- Botón para agregar nueva dirección -->
+                                        <div class="d-flex justify-content-between mb-3">
+                                            <button id="btnAgregarDireccion" class="btn btn-primary">Agregar Nueva Dirección</button>
+                                        </div>
+
                                         <!-- Aquí se mostrarán las direcciones -->
                                         <div id="direccionesContent">
                                             <!-- Las direcciones se cargarán dinámicamente aquí -->
@@ -208,11 +213,11 @@ if (!isset($_SESSION['loggedin'])) {
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                        <button type="button" class="btn btn-primary" id="btnAgregarDireccion">Agregar Nueva Dirección</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
 
 
                     </div>
@@ -515,35 +520,33 @@ if (!isset($_SESSION['loggedin'])) {
                 alertPlaceholder.html(alertHtml);
             }
         });
-        //Ver Direcciones
-        $(document).on('click', '.agregar-direccion', function() {
-            var clienteId = $(this).data('id');
 
-            // Cargar direcciones del cliente
-            $.ajax({
-                url: 'ruta-al-backend', // Cambia esto a la ruta que maneja la carga de direcciones
-                type: 'GET',
-                data: {
-                    idcli: clienteId
-                },
-                success: function(response) {
-                    // Mostrar direcciones en el modal
-                    $('#direccionesContent').html(response);
+        $(document).on('click', '.ver-direcciones', function() {
+    var clienteId = $(this).data('id'); // Obtener el ID del cliente del botón
 
-                    // Abrir el modal
-                    $('#direccionesModal').modal('show');
-                },
-                error: function(xhr, status, error) {
-                    console.log('Error al cargar las direcciones:', error);
-                }
-            });
-        });
+    // Cargar direcciones del cliente
+    $.ajax({
+        url: '../actions/get_direcciones.php', // Cambia esta ruta por la correcta en tu backend
+        type: 'GET',
+        data: { idcli: clienteId },
+        success: function(response) {
+            // Mostrar direcciones en el modal
+            $('#direccionesContent').html(response);
+            
+            // Abrir el modal
+            $('#direccionesModal').modal('show');
+        },
+        error: function(xhr, status, error) {
+            console.log('Error al cargar las direcciones:', error);
+        }
+    });
 
-        // Evento para agregar nueva dirección
-        $('#btnAgregarDireccion').on('click', function() {
-            // Aquí puedes redirigir a una página de formulario o abrir un modal para agregar la dirección
-            window.location.href = 'ruta-a-formulario-nueva-direccion'; // Cambia la ruta a la que maneje la inserción
-        });
+    // Configurar el botón para agregar nueva dirección
+    $('#btnAgregarDireccion').off('click').on('click', function() {
+        window.location.href = 'ruta-a-formulario-nueva-direccion?idcli=' + clienteId; // Redirige a una página para agregar dirección
+    });
+});
+
     </script>
     <script>
         // Función para mostrar toast
