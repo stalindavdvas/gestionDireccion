@@ -67,11 +67,11 @@ if (!isset($_SESSION['loggedin'])) {
                                         </div>
                                         <div class="mb-3">
                                             <label for="DNI" class="form-label">DNI</label>
-                                            <input type="text" class="form-control" id="DNI" name="DNI" required>
+                                            <input type="text" class="form-control" id="DNI" maxlength="10" name="DNI" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="Telefono" class="form-label">Teléfono</label>
-                                            <input type="text" class="form-control" pattern="\d+" title="Solo se permiten números enteros" id="Telefono" name="Telefono">
+                                            <input type="text" class="form-control" pattern="\d+" maxlength="10" title="Solo se permiten números enteros" id="Telefono" name="Telefono">
                                         </div>
                                         <div class="mb-3">
                                             <label for="Email" class="form-label">Email</label>

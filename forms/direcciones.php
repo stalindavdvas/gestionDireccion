@@ -142,14 +142,13 @@ try {
                                         </select>
                                         <div class="mb-3">
                                             <label for="CodigoPostal" class="form-label">Código Postal</label>
-                                            <input type="number" class="form-control" id="CodigoPostal" name="CodigoPostal" required>
+                                            <input type="number" class="form-control" pattern="\d+" maxlength="6" title="Solo se permiten números enteros" id="CodigoPostal" name="CodigoPostal" required>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Guardar Dirección</button>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                    <button type="button" class="btn btn-primary">Guardar</button>
                                 </div>
                             </div>
                         </div>
@@ -163,7 +162,7 @@ try {
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="formAgregarDireccion" action="agregar_direccion.php" method="POST">
+                                    <form id="formAgregarDireccionSi" action="agregar_direccion.php" method="POST">
                                         <input type="hidden" name="idcli" value="<?php echo $idcli; ?>">
                                         <div class="mb-3">
                                             <!-- Mostrar el nombre del cliente -->
@@ -183,7 +182,7 @@ try {
                                         </div>
                                         <div class="mb-3">
                                             <label for="id_provincia" class="form-label">Provincia</label>
-                                            <select class="form-select" id="id_provincia" name="id_provincia" required>
+                                            <select class="form-select" id="id_provinciaS" name="id_provincia" required>
                                                 <option value="" disabled selected>Selecciona una provincia</option>
                                                 <?php
                                                 $stmt = $conn->prepare("SELECT id_provincia, provincia FROM provincias");
@@ -197,13 +196,13 @@ try {
                                         </div>
                                         <div class="mb-3">
                                             <label for="id_canton" class="form-label">Cantón</label>
-                                            <select class="form-select" id="id_canton" name="id_canton" required>
+                                            <select class="form-select" id="id_cantonS" name="id_canton" required>
                                                 <option value="" disabled selected>Selecciona un cantón</option>
                                             </select>
                                         </div>
                                         <div class="mb-3">
                                             <label for="id_parroquia" class="form-label">Parroquia</label>
-                                            <select class="form-select" id="id_parroquia" name="id_parroquia" required>
+                                            <select class="form-select" id="id_parroquiaS" name="id_parroquia" required>
                                                 <option value="" disabled selected>Selecciona una parroquia</option>
                                             </select>
                                         </div>
@@ -229,14 +228,13 @@ try {
                                         </select>
                                         <div class="mb-3">
                                             <label for="CodigoPostal" class="form-label">Código Postal</label>
-                                            <input type="number" class="form-control" id="CodigoPostal" name="CodigoPostal" required>
+                                            <input type="number" class="form-control" id="CodigoPostal" pattern="\d+" maxlength="6" title="Solo se permiten números enteros" name="CodigoPostal" required>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Guardar Dirección</button>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                    <button type="button" class="btn btn-primary">Guardar</button>
                                 </div>
                             </div>
                         </div>
@@ -255,6 +253,7 @@ try {
                                     <th>Cliente</th>
                                     <th>Calle Principal</th>
                                     <th>Calle Secundaria</th>
+                                    <th>Numero</th>
                                     <th>Provincia</th>
                                     <th>Cantón</th>
                                     <th>Parroquia</th>
@@ -270,6 +269,7 @@ try {
                                         <td><?php echo $direccion['nombre_cliente']; ?></td>
                                         <td><?php echo $direccion['CallePrincipal']; ?></td>
                                         <td><?php echo $direccion['CalleSecundaria']; ?></td>
+                                        <td><?php echo $direccion['Numero']; ?></td>
                                         <td><?php echo $direccion['provincia']; ?></td>
                                         <td><?php echo $direccion['canton']; ?></td>
                                         <td><?php echo $direccion['parroquia']; ?></td>
@@ -295,6 +295,38 @@ try {
                                         <form id="formEditarDireccion" action="editar_direccion.php" method="POST">
                                             <input type="hidden" id="editIddir" name="iddir">
                                             <div class="mb-3">
+                                                <input type="hidden" id="editIdcli" name="idclied">
+                                                <label for="cliente" class="form-label">Cliente</label>
+                                                <input type="text" class="form-control" id="clientenombre" name="cliente" disabled>
+                                            </div>
+
+                                            <!-- Provincia -->
+                                            <div class="mb-3">
+                                                <label for="editProvincia" class="form-label">Provincia</label>
+                                                <select class="form-control" id="editProvincia" name="id_provincia" required>
+                                                    <option value="" disabled selected>Selecciona una provincia</option>
+                                                    <!-- Las opciones se cargarán dinámicamente con AJAX -->
+                                                </select>
+                                            </div>
+
+                                            <!-- Cantón -->
+                                            <div class="mb-3">
+                                                <label for="editCanton" class="form-label">Cantón</label>
+                                                <select class="form-control" id="editCanton" name="id_canton" required>
+                                                    <option value="" disabled selected>Selecciona un cantón</option>
+                                                    <!-- Las opciones se cargarán dinámicamente con AJAX -->
+                                                </select>
+                                            </div>
+
+                                            <!-- Parroquia -->
+                                            <div class="mb-3">
+                                                <label for="editParroquia" class="form-label">Parroquia</label>
+                                                <select class="form-control" id="editParroquia" name="id_parroquia" required>
+                                                    <option value="" disabled selected>Selecciona una parroquia</option>
+                                                    <!-- Las opciones se cargarán dinámicamente con AJAX -->
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
                                                 <label for="editCallePrincipal" class="form-label">Calle Principal</label>
                                                 <input type="text" class="form-control" id="editCallePrincipal" name="CallePrincipal" required>
                                             </div>
@@ -317,24 +349,25 @@ try {
                             </div>
                         </div>
 
-                        <!-- Modal de eliminar dirección -->
-                        <div class="modal fade" id="modalEliminarDireccion" tabindex="-1" aria-labelledby="modalEliminarDireccionLabel" aria-hidden="true">
+                        <!-- Modal de confirmación para eliminar -->
+                        <div class="modal fade" id="modalEliminarDireccion" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="modalEliminarDireccionLabel">Eliminar Dirección</h5>
+                                        <h5 class="modal-title" id="modalEliminarLabel">Confirmar eliminación</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form id="eliminarDireccionForm" action="eliminar_direccion.php" method="POST">
-                                            <input type="hidden" name="iddir" id="iddirEliminar">
-                                            <p>¿Estás seguro de que deseas eliminar esta dirección?</p>
-                                            <button type="submit" class="btn btn-danger">Eliminar</button>
-                                        </form>
+                                        ¿Estás seguro de que deseas eliminar esta dirección?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        <button type="button" class="btn btn-danger" id="confirmarEliminar">Eliminar</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
 
                     </div>
                 </div>
@@ -389,6 +422,7 @@ try {
             toast.show();
         }
     </script>
+    <!-- Acciones del sidebar -->
     <script>
         // Seleccionamos el botón y el sidebar
         const sidebar = document.getElementById('sidebar');
@@ -418,6 +452,7 @@ try {
             sidebar.classList.add('collapse');
         }
     </script>
+    <!-- Carga dinamica de provincia canton parroquia -->
     <script>
         // Cuando se cambie la provincia, cargar los cantones correspondientes
         $('#id_provincia').change(function() {
@@ -453,7 +488,42 @@ try {
                 });
             }
         });
+        // Cuando se cambie la provincia, cargar los cantones correspondientes
+        $('#id_provinciaS').change(function() {
+            var idProvincia = $(this).val();
+            if (idProvincia) {
+                $.ajax({
+                    url: '../actions/get_cantones.php', // Este archivo obtendrá los cantones
+                    type: 'POST',
+                    data: {
+                        id_provincia: idProvincia
+                    },
+                    success: function(response) {
+                        $('#id_cantonS').html(response);
+                        $('#id_parroquiaS').html('<option value="" disabled selected>Selecciona una parroquia</option>');
+                    }
+                });
+            }
+        });
+
+        // Cuando se cambie el cantón, cargar las parroquias correspondientes
+        $('#id_cantonS').change(function() {
+            var idCanton = $(this).val();
+            if (idCanton) {
+                $.ajax({
+                    url: '../actions/get_parroquias.php', // Este archivo obtendrá las parroquias
+                    type: 'POST',
+                    data: {
+                        id_canton: idCanton
+                    },
+                    success: function(response) {
+                        $('#id_parroquiaS').html(response);
+                    }
+                });
+            }
+        });
     </script>
+    <!-- cargar modal cuando elegimos desde la pagina cliente -->
     <script>
         // Pasamos la variable PHP a JavaScript
         var vermodal = <?php echo json_encode($verModa); ?>; // Usa json_encode para pasar el valor de PHP a JS
@@ -464,8 +534,21 @@ try {
             miModal.show();
         }
     </script>
+    <!-- DataTables  -->
     <script>
         $(document).ready(function() {
+            // Verifica si hay un mensaje en sessionStorage
+            var toastMessage = sessionStorage.getItem('toastMessage');
+            var toastType = sessionStorage.getItem('toastType'); // Puede ser success, danger, etc.
+
+            if (toastMessage) {
+                // Muestra el toast
+                showToast(toastType, toastMessage);
+
+                // Limpia sessionStorage después de mostrar el mensaje
+                sessionStorage.removeItem('toastMessage');
+                sessionStorage.removeItem('toastType');
+            }
             // Inicializar DataTable
             $('#direccionesTable').DataTable({
                 "lengthChange": true,
@@ -489,6 +572,9 @@ try {
                         "width": "100px"
                     },
                     {
+                        "width": "30px"
+                    },
+                    {
                         "width": "100px"
                     },
                     {
@@ -505,9 +591,12 @@ try {
                     }
 
                 ]
+
+
             });
         });
     </script>
+    <!-- Acciones de ventanas modales -->
     <script>
         // Agregar nueva dirección
         $('#formAgregarDireccion').submit(function(e) {
@@ -522,8 +611,15 @@ try {
                 success: function(response) {
                     if (response.status === 'success') {
                         showToast('success', response.message);
-                        $('#modalAgregarDireccion').modal('hide'); // Cerrar modal
-                        $('#direccionesTable').DataTable().ajax.reload(null, false);
+                        $('#modalAgregarDireccionCli').modal('hide'); // Cerrar modal
+                        // $('#direccionesTable').DataTable().ajax.reload(null, false);
+                        // Limpiar y volver a cargar la tabla sin recargar toda la página
+                        // Guarda el mensaje en sessionStorage
+                        sessionStorage.setItem('toastMessage', response.message);
+                        sessionStorage.setItem('toastType', 'success'); // Puedes guardar el tipo de toast si necesitas (success, error, etc.)
+                        // Recarga la página
+                        location.reload();
+                        $('#formAgregarDireccion')[0].reset();
                     } else {
                         showToast('danger', response.message);
                     }
@@ -533,22 +629,27 @@ try {
                 }
             });
         });
-
-        // Editar dirección
-        $('#formEditarDireccion').submit(function(e) {
-            e.preventDefault();
-            var formData = $(this).serialize();
+        // Agregar nueva dirección
+        $('#formAgregarDireccionSi').submit(function(e) {
+            e.preventDefault(); // Prevenir el envío del formulario
+            var formData = $(this).serialize(); // Serializar los datos del formulario
 
             $.ajax({
-                url: '../actions/editar_direccion.php',
+                url: '../actions/agregar_direccion.php',
                 type: 'POST',
                 data: formData,
                 dataType: 'json',
                 success: function(response) {
                     if (response.status === 'success') {
                         showToast('success', response.message);
-                        $('#modalEditarDireccion').modal('hide');
-                        $('#direccionesTable').DataTable().ajax.reload(null, false);
+                        $('#modalAgregarDireccion').modal('hide'); // Cerrar modal
+                        // $('#direccionesTable').DataTable().ajax.reload(null, false);
+                        // Guarda el mensaje en sessionStorage
+                        sessionStorage.setItem('toastMessage', response.message);
+                        sessionStorage.setItem('toastType', 'success'); // Puedes guardar el tipo de toast si necesitas (success, error, etc.)
+                        // Recarga la página
+                        location.reload();
+                        $('#formAgregarDireccionSi')[0].reset();
                     } else {
                         showToast('danger', response.message);
                     }
@@ -559,30 +660,102 @@ try {
             });
         });
 
-        // Eliminar dirección
-        function eliminarDireccion(iddir) {
-            if (confirm('¿Estás seguro de eliminar esta dirección?')) {
-                $.ajax({
-                    url: '../actions/eliminar_direccion.php',
-                    type: 'POST',
-                    data: {
-                        iddir: iddir
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.status === 'success') {
-                            showToast('success', response.message);
-                            $('#direccionesTable').DataTable().ajax.reload(null, false);
-                        } else {
-                            showToast('danger', response.message);
-                        }
-                    },
-                    error: function() {
-                        showToast('danger', 'Error en la solicitud');
+
+        // Editar dirección
+        $('#formEditarDireccion').submit(function(event) {
+            event.preventDefault(); // Prevenir el envío del formulario de manera normal
+
+            var formData = $(this).serialize(); // Serializar los datos del formulario
+
+            $.ajax({
+                url: '../actions/editar_direccion.php', // El archivo que manejará la solicitud
+                type: 'POST',
+                data: formData, // Los datos del formulario
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === 'success') {
+                        // Cerrar el modal
+                        $('#modalEditarDireccion').modal('hide');
+
+                        // Mostrar mensaje de éxito (opcional)
+                        showToast('success', response.message);
+
+                        // Guarda el mensaje en sessionStorage
+                        sessionStorage.setItem('toastMessage', response.message);
+                        sessionStorage.setItem('toastType', 'success'); // Puedes guardar el tipo de toast si necesitas (success, error, etc.)
+                        // Recarga la página
+                        location.reload();
+                    } else {
+                        // Mostrar mensaje de error
+                        showToast('danger', response.message);
                     }
-                });
-            }
+                },
+                error: function() {
+                    showToast('danger', 'Error en la solicitud.');
+                }
+            });
+        });
+
+        // // Eliminar dirección
+        // function eliminarDireccion(iddir) {
+        //     if (confirm('¿Estás seguro de eliminar esta dirección?')) {
+        //         $.ajax({
+        //             url: '../actions/eliminar_direccion.php',
+        //             type: 'POST',
+        //             data: {
+        //                 iddir: iddir
+        //             },
+        //             dataType: 'json',
+        //             success: function(response) {
+        //                 if (response.status === 'success') {
+        //                     showToast('success', response.message);
+        //                     // $('#direccionesTable').DataTable().ajax.reload(null, false);
+        //                     location.reload();
+        //                 } else {
+        //                     showToast('danger', response.message);
+        //                 }
+        //             },
+        //             error: function() {
+        //                 showToast('danger', 'Error en la solicitud');
+        //             }
+        //         });
+        //     }
+        // }
+
+        var idDireccionEliminar; // Variable global para almacenar la ID de la dirección a eliminar
+
+        function eliminarDireccion(iddir) {
+            idDireccionEliminar = iddir; // Almacenar la ID en una variable global
+            var modal = new bootstrap.Modal(document.getElementById('modalEliminarDireccion'));
+            modal.show();
         }
+        // Evento de clic en el botón de confirmación
+        $('#confirmarEliminar').click(function() {
+            $.ajax({
+                url: '../actions/eliminar_direccion.php',
+                type: 'POST',
+                data: {
+                    iddir: idDireccionEliminar
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === 'success') {
+                        showToast('success', response.message);
+                        $('#modalEliminarDireccion').modal('hide');
+                        // Guarda el mensaje en sessionStorage
+                        sessionStorage.setItem('toastMessage', response.message);
+                        sessionStorage.setItem('toastType', 'success'); // Puedes guardar el tipo de toast si necesitas (success, error, etc.)
+                        // Recarga la página
+                        location.reload();
+                    } else {
+                        showToast('danger', response.message);
+                    }
+                },
+                error: function() {
+                    showToast('danger', 'Error en la solicitud');
+                }
+            });
+        });
 
         function editarDireccion(iddir) {
             $.ajax({
@@ -596,10 +769,54 @@ try {
                     if (response.status === 'success') {
                         // Rellenar el formulario con los datos obtenidos
                         $('#editIddir').val(response.data.iddir);
+                        $('#editIdcli').val(response.data.idcli);
+                        $('#clientenombre').val(response.data.cliente);
                         $('#editCallePrincipal').val(response.data.CallePrincipal);
                         $('#editCalleSecundaria').val(response.data.CalleSecundaria);
                         $('#editNumero').val(response.data.Numero);
                         $('#editCodigoPostal').val(response.data.CodigoPostal);
+
+                        // Cargar las opciones del select de provincia y seleccionar la correcta
+                        $.ajax({
+                            url: '../actions/get_provincias.php', // Este archivo obtendrá todas las provincias
+                            type: 'GET',
+                            dataType: 'json',
+                            success: function(provincias) {
+                                $('#editProvincia').empty(); // Limpiar el select de provincia
+                                $.each(provincias, function(index, provincia) {
+                                    $('#editProvincia').append('<option value="' + provincia.id_provincia + '">' + provincia.provincia + '</option>');
+                                });
+                                $('#editProvincia').val(response.data.id_provincia); // Seleccionar la provincia correspondiente
+                            }
+                        });
+
+                        // Cargar las opciones del select de cantón basado en la provincia seleccionada
+                        $.ajax({
+                            url: '../actions/get_cantones.php', // Este archivo obtendrá los cantones de la provincia
+                            type: 'POST',
+                            data: {
+                                id_provincia: response.data.id_provincia
+                            },
+                            success: function(cantones) {
+                                $('#editCanton').empty(); // Limpiar el select de cantón
+                                $('#editCanton').html(cantones); // Llenar el select con las opciones
+                                $('#editCanton').val(response.data.id_canton); // Seleccionar el cantón correspondiente
+                            }
+                        });
+
+                        // Cargar las opciones del select de parroquia basado en el cantón seleccionado
+                        $.ajax({
+                            url: '../actions/get_parroquias.php', // Este archivo obtendrá las parroquias del cantón
+                            type: 'POST',
+                            data: {
+                                id_canton: response.data.id_canton
+                            },
+                            success: function(parroquias) {
+                                $('#editParroquia').empty(); // Limpiar el select de parroquia
+                                $('#editParroquia').html(parroquias); // Llenar el select con las opciones
+                                $('#editParroquia').val(response.data.id_parroquia); // Seleccionar la parroquia correspondiente
+                            }
+                        });
 
                         // Abre el modal de edición
                         var modal = new bootstrap.Modal(document.getElementById('modalEditarDireccion'));
