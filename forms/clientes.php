@@ -203,7 +203,7 @@ if (!isset($_SESSION['loggedin'])) {
                                     <div class="modal-body">
                                         <!-- Botón para agregar nueva dirección -->
                                         <div class="d-flex justify-content-between mb-3">
-                                            <button id="btnAgregarDireccion" class="btn btn-primary">Agregar Nueva Dirección</button>
+                                        <button id="btnAgregarDireccion" class="btn btn-primary">Agregar Nueva Dirección</button>
                                         </div>
 
                                         <!-- Aquí se mostrarán las direcciones -->
@@ -543,7 +543,8 @@ if (!isset($_SESSION['loggedin'])) {
 
     // Configurar el botón para agregar nueva dirección
     $('#btnAgregarDireccion').off('click').on('click', function() {
-        window.location.href = 'ruta-a-formulario-nueva-direccion?idcli=' + clienteId; // Redirige a una página para agregar dirección
+        var moda=true;
+        window.location.href = 'direcciones.php?idcli=' + clienteId+'&vermod='+moda; // Redirige a una página para agregar dirección
     });
 });
 
