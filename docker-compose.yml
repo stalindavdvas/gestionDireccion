@@ -19,7 +19,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: clientes
+      MYSQL_DATABASE: direcciones
       MYSQL_USER: user
       MYSQL_PASSWORD: password
     ports:
