@@ -32,11 +32,18 @@ $columns = array(
 );
 
 // Detalles de la conexión a la base de datos (ajustados con tu configuración de PDO)
+// $sql_details = array(
+//     'user' => 'root',   // Reemplaza con tu usuario
+//     'pass' => '', // Reemplaza con tu contraseña
+//     'db'   => 'direcciones', // Reemplaza con tu base de datos
+//     'host' => 'localhost'      // Si estás usando localhost
+// );
+
 $sql_details = array(
-    'user' => 'root',   // Reemplaza con tu usuario
-    'pass' => '', // Reemplaza con tu contraseña
+    'user' => 'user',   // Reemplaza con tu usuario
+    'pass' => 'password', // Reemplaza con tu contraseña
     'db'   => 'direcciones', // Reemplaza con tu base de datos
-    'host' => 'localhost'      // Si estás usando localhost
+    'host' => 'mysql_db'      // Si estás usando localhost
 );
 
 // Requiere la clase SSP para procesar la solicitud
