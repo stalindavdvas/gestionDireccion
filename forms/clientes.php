@@ -149,7 +149,7 @@ if (!isset($_SESSION['loggedin'])) {
                                             </div>
                                             <div class="mb-3">
                                                 <label for="editDNI" class="form-label">DNI</label>
-                                                <input type="text" class="form-control" id="editDNI">
+                                                <input type="text" class="form-control" id="editDNI" readonly>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="editTelefono" class="form-label">Telefono</label>
