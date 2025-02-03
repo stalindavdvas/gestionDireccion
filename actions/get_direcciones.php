@@ -1,5 +1,6 @@
 <?php
 require 'db_connection.php';
+
 if (isset($_GET['idcli'])) {
     $idcli = $_GET['idcli'];
 
@@ -14,6 +15,13 @@ if (isset($_GET['idcli'])) {
     ");
     $stmt->execute(['idcli' => $idcli]);
     $direcciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Verificar si se encontraron direcciones
+    if (empty($direcciones)) {
+        // Retornar un mensaje indicando que no hay direcciones
+        echo '<div class="alert alert-warning">No existen direcciones ingresadas para este cliente.</div>';
+        exit();
+    }
 
     // Generar el HTML para mostrar las direcciones
     $html = '<table class="table table-striped">';
