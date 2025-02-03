@@ -142,7 +142,7 @@ try {
                                         </select>
                                         <div class="mb-3">
                                             <label for="CodigoPostal" class="form-label">Código Postal</label>
-                                            <input type="number" class="form-control" pattern="\d+" maxlength="6" title="Solo se permiten números enteros" id="CodigoPostal" name="CodigoPostal" required>
+                                            <input type="number" class="form-control" pattern="\d+" minlength="6" maxlength="6" title="Solo se permiten números enteros" id="CodigoPostal" name="CodigoPostal" required>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Guardar Dirección</button>
                                     </form>

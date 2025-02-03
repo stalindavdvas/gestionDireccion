@@ -55,7 +55,7 @@ if (!isset($_SESSION['loggedin'])) {
                                         </div>
                                         <div class="mb-3">
                                             <label for="Snombre" class="form-label">Segundo Nombre</label>
-                                            <input type="text" class="form-control" pattern="[A-Za-z]+" title="Solo se permiten letras" id="Snombre" name="Snombre">
+                                            <input type="text" class="form-control" pattern="[A-Za-z]+" title="Solo se permiten letras" id="Snombre" name="Snombre" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="Papellido" class="form-label">Primer Apellido</label>
@@ -67,15 +67,15 @@ if (!isset($_SESSION['loggedin'])) {
                                         </div>
                                         <div class="mb-3">
                                             <label for="DNI" class="form-label">DNI</label>
-                                            <input type="text" class="form-control" id="DNI" maxlength="10" name="DNI" required>
+                                            <input type="text" class="form-control" id="DNI" maxlength="10" minlength="10" name="DNI" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="Telefono" class="form-label">Teléfono</label>
-                                            <input type="text" class="form-control" pattern="\d+" maxlength="10" title="Solo se permiten números enteros" id="Telefono" name="Telefono">
+                                            <input type="text" class="form-control" pattern="\d+" minlength="10" maxlength="10" title="Solo se permiten números enteros" id="Telefono" name="Telefono" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="Email" class="form-label">Email</label>
-                                            <input type="email" class="form-control" id="Email" name="Email">
+                                            <input type="email" class="form-control" id="Email" name="Email" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="Genero" class="form-label">Género</label>
@@ -86,7 +86,7 @@ if (!isset($_SESSION['loggedin'])) {
                                         </div>
                                         <div class="mb-3">
                                             <label for="FecNac" class="form-label">Fecha Nacimiento</label>
-                                            <input type="date" class="form-control" id="FecNac" name="FecNac">
+                                            <input type="date" class="form-control" id="FecNac" name="FecNac" required>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Agregar Cliente</button>
                                     </form>
@@ -149,11 +149,11 @@ if (!isset($_SESSION['loggedin'])) {
                                             </div>
                                             <div class="mb-3">
                                                 <label for="editDNI" class="form-label">DNI</label>
-                                                <input type="text" class="form-control" id="editDNI" readonly>
+                                                <input type="text" class="form-control" id="editDNI" maxlength="10" minlength="10" readonly>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="editTelefono" class="form-label">Telefono</label>
-                                                <input type="text" class="form-control" id="editTelefono">
+                                                <input type="text" class="form-control" id="editTelefono" maxlength="10" minlength="10">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="editEmail" class="form-label">Email</label>
