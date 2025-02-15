@@ -395,36 +395,35 @@ try {
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
     <script>
-        // Función para mostrar toast
-        function showToast(type, message) {
-            var toastElement = document.getElementById('liveToast');
-            var toastMessage = document.getElementById('toastMessage');
+    // Función para mostrar toast
+    function showToast(type, message) {
+        var toastElement = document.getElementById('liveToast');
+        var toastMessage = document.getElementById('toastMessage');
 
-            // Restablecer las clases del toast
-            toastElement.className = 'toast align-items-center border-0';
+        // Restablecer las clases del toast
+        toastElement.className = 'toast align-items-center border-0';
 
-            // Cambiar el estilo del toast según el tipo
-            if (type === 'success') {
-                toastElement.classList.add('text-bg-success');
-            } else if (type === 'danger') {
-                toastElement.classList.add('text-bg-danger');
-            } else if (type === 'warning') {
-                toastElement.classList.add('text-bg-warning');
-            } else {
-                toastElement.classList.add('text-bg-primary'); // Default a primary si no es otro tipo
-            }
-
-            // Cambiar el mensaje del toast
-            toastMessage.textContent = message;
-
-            // Mostrar el toast
-            var toast = new bootstrap.Toast(toastElement);
-            toast.show();
+        // Cambiar el estilo del toast según el tipo
+        if (type === 'success') {
+            toastElement.classList.add('text-bg-success');
+        } else if (type === 'danger') {
+            toastElement.classList.add('text-bg-danger');
+        } else if (type === 'warning') {
+            toastElement.classList.add('text-bg-warning');
+        } else {
+            toastElement.classList.add('text-bg-primary'); // Default a primary si no es otro tipo
         }
-    </script>
-    <!-- Acciones del sidebar -->
-    <script>
-        // Seleccionamos el botón y el sidebar
+
+        // Cambiar el mensaje del toast
+        toastMessage.textContent = message;
+
+        // Mostrar el toast
+        var toast = new bootstrap.Toast(toastElement);
+        toast.show();
+    }
+
+    // Acciones del sidebar
+    document.addEventListener("DOMContentLoaded", function() {
         const sidebar = document.getElementById('sidebar');
         const sidebarToggleButton = document.getElementById('sidebarToggle');
 
@@ -451,9 +450,10 @@ try {
             sidebar.classList.remove('show');
             sidebar.classList.add('collapse');
         }
-    </script>
-    <!-- Carga dinamica de provincia canton parroquia -->
-    <script>
+    });
+
+    // Carga dinámica de provincia, cantón y parroquia
+    $(document).ready(function() {
         // Cuando se cambie la provincia, cargar los cantones correspondientes
         $('#id_provincia').change(function() {
             var idProvincia = $(this).val();
@@ -488,7 +488,8 @@ try {
                 });
             }
         });
-        // Cuando se cambie la provincia, cargar los cantones correspondientes
+
+        // Cuando se cambie la provincia en el segundo modal, cargar los cantones correspondientes
         $('#id_provinciaS').change(function() {
             var idProvincia = $(this).val();
             if (idProvincia) {
@@ -506,7 +507,7 @@ try {
             }
         });
 
-        // Cuando se cambie el cantón, cargar las parroquias correspondientes
+        // Cuando se cambie el cantón en el segundo modal, cargar las parroquias correspondientes
         $('#id_cantonS').change(function() {
             var idCanton = $(this).val();
             if (idCanton) {
@@ -522,10 +523,8 @@ try {
                 });
             }
         });
-    </script>
-    <!-- cargar modal cuando elegimos desde la pagina cliente -->
-    <script>
-        // Pasamos la variable PHP a JavaScript
+
+        // Cargar modal cuando elegimos desde la página cliente
         var vermodal = <?php echo json_encode($verModa); ?>; // Usa json_encode para pasar el valor de PHP a JS
 
         // Lógica para decidir si abrir el modal
@@ -533,71 +532,45 @@ try {
             var miModal = new bootstrap.Modal(document.getElementById('modalAgregarDireccionCli'));
             miModal.show();
         }
-    </script>
-    <!-- DataTables  -->
-    <script>
-        $(document).ready(function() {
-            // Verifica si hay un mensaje en sessionStorage
-            var toastMessage = sessionStorage.getItem('toastMessage');
-            var toastType = sessionStorage.getItem('toastType'); // Puede ser success, danger, etc.
 
-            if (toastMessage) {
-                // Muestra el toast
-                showToast(toastType, toastMessage);
-
-                // Limpia sessionStorage después de mostrar el mensaje
-                sessionStorage.removeItem('toastMessage');
-                sessionStorage.removeItem('toastType');
-            }
-            // Inicializar DataTable
-            $('#direccionesTable').DataTable({
-                "lengthChange": true,
-                "pageLength": 7, // Número de registros por página
-                "lengthMenu": [7, 10, 25, 50], // Opciones del dropdown de cantidad de registros
-                "autoWidth": false,
-                "responsive": true,
-                "columns": [{
-                        "width": "30px"
-                    }, // Ancho para la columna 1
-                    {
-                        "width": "100px"
-                    }, // Ancho para la columna 2
-                    {
-                        "width": "100px"
-                    }, // Ancho para la columna 3
-                    {
-                        "width": "100px"
-                    },
-                    {
-                        "width": "100px"
-                    },
-                    {
-                        "width": "30px"
-                    },
-                    {
-                        "width": "100px"
-                    },
-                    {
-                        "width": "80px"
-                    },
-                    {
-                        "width": "60px"
-                    },
-                    {
-                        "width": "60px"
-                    },
-                    {
-                        "width": "60px"
-                    }
-
-                ]
-
-
-            });
+        // Inicializar DataTable
+        $('#direccionesTable').DataTable({
+            "lengthChange": true,
+            "pageLength": 7, // Número de registros por página
+            "lengthMenu": [7, 10, 25, 50], // Opciones del dropdown de cantidad de registros
+            "autoWidth": false,
+            "responsive": true,
+            "columns": [
+                { "width": "30px" }, // Ancho para la columna 1
+                { "width": "100px" }, // Ancho para la columna 2
+                { "width": "100px" }, // Ancho para la columna 3
+                { "width": "100px" },
+                { "width": "100px" },
+                { "width": "30px" },
+                { "width": "100px" },
+                { "width": "80px" },
+                { "width": "60px" },
+                { "width": "60px" },
+                { "width": "60px" }
+            ]
         });
-    </script>
-    <!-- Acciones de ventanas modales -->
-    <script>
+
+        // Verifica si hay un mensaje en sessionStorage
+        var toastMessage = sessionStorage.getItem('toastMessage');
+        var toastType = sessionStorage.getItem('toastType'); // Puede ser success, danger, etc.
+
+        if (toastMessage) {
+            // Muestra el toast
+            showToast(toastType, toastMessage);
+
+            // Limpia sessionStorage después de mostrar el mensaje
+            sessionStorage.removeItem('toastMessage');
+            sessionStorage.removeItem('toastType');
+        }
+    });
+
+    // Acciones de ventanas modales
+    $(document).ready(function() {
         // Agregar nueva dirección
         $('#formAgregarDireccion').submit(function(e) {
             e.preventDefault(); // Prevenir el envío del formulario
@@ -612,14 +585,11 @@ try {
                     if (response.status === 'success') {
                         showToast('success', response.message);
                         $('#modalAgregarDireccionCli').modal('hide'); // Cerrar modal
-                        // $('#direccionesTable').DataTable().ajax.reload(null, false);
-                        // Limpiar y volver a cargar la tabla sin recargar toda la página
                         // Guarda el mensaje en sessionStorage
                         sessionStorage.setItem('toastMessage', response.message);
-                        sessionStorage.setItem('toastType', 'success'); // Puedes guardar el tipo de toast si necesitas (success, error, etc.)
+                        sessionStorage.setItem('toastType', 'success');
                         // Recarga la página
                         location.reload();
-                        $('#formAgregarDireccion')[0].reset();
                     } else {
                         showToast('danger', response.message);
                     }
@@ -629,7 +599,8 @@ try {
                 }
             });
         });
-        // Agregar nueva dirección
+
+        // Agregar nueva dirección desde el segundo modal
         $('#formAgregarDireccionSi').submit(function(e) {
             e.preventDefault(); // Prevenir el envío del formulario
             var formData = $(this).serialize(); // Serializar los datos del formulario
@@ -643,13 +614,11 @@ try {
                     if (response.status === 'success') {
                         showToast('success', response.message);
                         $('#modalAgregarDireccion').modal('hide'); // Cerrar modal
-                        // $('#direccionesTable').DataTable().ajax.reload(null, false);
                         // Guarda el mensaje en sessionStorage
                         sessionStorage.setItem('toastMessage', response.message);
-                        sessionStorage.setItem('toastType', 'success'); // Puedes guardar el tipo de toast si necesitas (success, error, etc.)
+                        sessionStorage.setItem('toastType', 'success');
                         // Recarga la página
                         location.reload();
-                        $('#formAgregarDireccionSi')[0].reset();
                     } else {
                         showToast('danger', response.message);
                     }
@@ -660,29 +629,25 @@ try {
             });
         });
 
-
         // Editar dirección
         $('#formEditarDireccion').submit(function(event) {
             event.preventDefault(); // Prevenir el envío del formulario de manera normal
-
             var formData = $(this).serialize(); // Serializar los datos del formulario
 
             $.ajax({
-                url: '../actions/editar_direccion.php', // El archivo que manejará la solicitud
+                url: '../actions/editar_direccion.php',
                 type: 'POST',
-                data: formData, // Los datos del formulario
+                data: formData,
                 dataType: 'json',
                 success: function(response) {
                     if (response.status === 'success') {
                         // Cerrar el modal
                         $('#modalEditarDireccion').modal('hide');
-
-                        // Mostrar mensaje de éxito (opcional)
+                        // Mostrar mensaje de éxito
                         showToast('success', response.message);
-
                         // Guarda el mensaje en sessionStorage
                         sessionStorage.setItem('toastMessage', response.message);
-                        sessionStorage.setItem('toastType', 'success'); // Puedes guardar el tipo de toast si necesitas (success, error, etc.)
+                        sessionStorage.setItem('toastType', 'success');
                         // Recarga la página
                         location.reload();
                     } else {
@@ -696,32 +661,7 @@ try {
             });
         });
 
-        // // Eliminar dirección
-        // function eliminarDireccion(iddir) {
-        //     if (confirm('¿Estás seguro de eliminar esta dirección?')) {
-        //         $.ajax({
-        //             url: '../actions/eliminar_direccion.php',
-        //             type: 'POST',
-        //             data: {
-        //                 iddir: iddir
-        //             },
-        //             dataType: 'json',
-        //             success: function(response) {
-        //                 if (response.status === 'success') {
-        //                     showToast('success', response.message);
-        //                     // $('#direccionesTable').DataTable().ajax.reload(null, false);
-        //                     location.reload();
-        //                 } else {
-        //                     showToast('danger', response.message);
-        //                 }
-        //             },
-        //             error: function() {
-        //                 showToast('danger', 'Error en la solicitud');
-        //             }
-        //         });
-        //     }
-        // }
-
+        // Eliminar dirección
         var idDireccionEliminar; // Variable global para almacenar la ID de la dirección a eliminar
 
         function eliminarDireccion(iddir) {
@@ -729,6 +669,7 @@ try {
             var modal = new bootstrap.Modal(document.getElementById('modalEliminarDireccion'));
             modal.show();
         }
+
         // Evento de clic en el botón de confirmación
         $('#confirmarEliminar').click(function() {
             $.ajax({
@@ -744,7 +685,7 @@ try {
                         $('#modalEliminarDireccion').modal('hide');
                         // Guarda el mensaje en sessionStorage
                         sessionStorage.setItem('toastMessage', response.message);
-                        sessionStorage.setItem('toastType', 'success'); // Puedes guardar el tipo de toast si necesitas (success, error, etc.)
+                        sessionStorage.setItem('toastType', 'success');
                         // Recarga la página
                         location.reload();
                     } else {
@@ -757,6 +698,7 @@ try {
             });
         });
 
+        // Función para editar dirección
         function editarDireccion(iddir) {
             $.ajax({
                 url: '../actions/obtener_direccion.php',
@@ -778,7 +720,7 @@ try {
 
                         // Cargar las opciones del select de provincia y seleccionar la correcta
                         $.ajax({
-                            url: '../actions/get_provincias.php', // Este archivo obtendrá todas las provincias
+                            url: '../actions/get_provincias.php',
                             type: 'GET',
                             dataType: 'json',
                             success: function(provincias) {
@@ -792,7 +734,7 @@ try {
 
                         // Cargar las opciones del select de cantón basado en la provincia seleccionada
                         $.ajax({
-                            url: '../actions/get_cantones.php', // Este archivo obtendrá los cantones de la provincia
+                            url: '../actions/get_cantones.php',
                             type: 'POST',
                             data: {
                                 id_provincia: response.data.id_provincia
@@ -806,7 +748,7 @@ try {
 
                         // Cargar las opciones del select de parroquia basado en el cantón seleccionado
                         $.ajax({
-                            url: '../actions/get_parroquias.php', // Este archivo obtendrá las parroquias del cantón
+                            url: '../actions/get_parroquias.php',
                             type: 'POST',
                             data: {
                                 id_canton: response.data.id_canton
@@ -830,7 +772,8 @@ try {
                 }
             });
         }
-    </script>
+    });
+</script>
 </body>
 
 </html>

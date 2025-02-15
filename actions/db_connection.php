@@ -1,8 +1,8 @@
 <?php
-$host = 'mysql_db'; // Nombre del servicio en Docker
+$host = '3.228.246.156'; // Nombre del servicio en Docker
 $db = 'direcciones';
-$user = 'user';
-$pass = 'password';
+$user = 'root';
+$pass = 'root';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;port=3306;dbname=$db;charset=$charset";

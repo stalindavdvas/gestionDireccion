@@ -40,10 +40,10 @@ $columns = array(
 // );
 
 $sql_details = array(
-    'user' => 'user',   // Reemplaza con tu usuario
-    'pass' => 'password', // Reemplaza con tu contraseña
+    'user' => 'root',   // Reemplaza con tu usuario
+    'pass' => 'root', // Reemplaza con tu contraseña
     'db'   => 'direcciones', // Reemplaza con tu base de datos
-    'host' => 'mysql_db'      // Si estás usando localhost
+    'host' => '3.228.246.156'      // Si estás usando localhost
 );
 
 // Requiere la clase SSP para procesar la solicitud
