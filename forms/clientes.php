@@ -51,27 +51,27 @@ if (!isset($_SESSION['loggedin'])) {
                                     <form id="formAgregar">
                                         <div class="mb-3">
                                             <label for="Pnombre" class="form-label">Primer Nombre</label>
-                                            <input type="text" class="form-control" pattern="[A-Za-z]+" title="Solo se permiten letras" id="Pnombre" name="Pnombre" required>
+                                            <input type="text" class="form-control" oninput="soloLetras(this)" title="Solo se permiten letras" id="Pnombre" name="Pnombre" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="Snombre" class="form-label">Segundo Nombre</label>
-                                            <input type="text" class="form-control" pattern="[A-Za-z]+" title="Solo se permiten letras" id="Snombre" name="Snombre" required>
+                                            <input type="text" class="form-control" oninput="soloLetras(this)" title="Solo se permiten letras" id="Snombre" name="Snombre" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="Papellido" class="form-label">Primer Apellido</label>
-                                            <input type="text" class="form-control" pattern="[A-Za-z]+" title="Solo se permiten letras" id="Papellido" name="Papellido" required>
+                                            <input type="text" class="form-control" oninput="soloLetras(this)" title="Solo se permiten letras" id="Papellido" name="Papellido" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="Sapellido" class="form-label">Segundo Apellido</label>
-                                            <input type="text" class="form-control" pattern="[A-Za-z]+" title="Solo se permiten letras" id="Sapellido" name="Sapellido" required>
+                                            <input type="text" class="form-control" oninput="soloLetras(this)" title="Solo se permiten letras" id="Sapellido" name="Sapellido" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="DNI" class="form-label">DNI</label>
-                                            <input type="text" class="form-control" id="DNI" maxlength="10" minlength="10" name="DNI" required>
+                                            <input type="text" class="form-control" id="DNI" oninput="soloNumeros(this)" maxlength="10" minlength="10" name="DNI" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="Telefono" class="form-label">Teléfono</label>
-                                            <input type="text" class="form-control" pattern="\d+" minlength="10" maxlength="10" title="Solo se permiten números enteros" id="Telefono" name="Telefono" required>
+                                            <input type="text" class="form-control" oninput="soloNumeros(this)" minlength="10" maxlength="10" title="Solo se permiten números enteros" id="Telefono" name="Telefono" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="Email" class="form-label">Email</label>
@@ -133,27 +133,27 @@ if (!isset($_SESSION['loggedin'])) {
                                             <input type="hidden" id="editIdcli">
                                             <div class="mb-3">
                                                 <label for="editPnombre" class="form-label">Primer Nombre</label>
-                                                <input type="text" class="form-control" id="editPnombre">
+                                                <input type="text" oninput="soloLetras(this)" class="form-control" id="editPnombre">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="editSnombre" class="form-label">Segundo Nombre</label>
-                                                <input type="text" class="form-control" id="editSnombre">
+                                                <input type="text" oninput="soloLetras(this)" class="form-control" id="editSnombre">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="editPapellido" class="form-label">Primer Apellido</label>
-                                                <input type="text" class="form-control" id="editPapellido">
+                                                <input type="text" oninput="soloLetras(this)" class="form-control" id="editPapellido">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="editSapellido" class="form-label">Segundo Apellido</label>
-                                                <input type="text" class="form-control" id="editSapellido">
+                                                <input type="text" oninput="soloLetras(this)" class="form-control" id="editSapellido">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="editDNI" class="form-label">DNI</label>
-                                                <input type="text" class="form-control" id="editDNI" maxlength="10" minlength="10" readonly>
+                                                <input type="text" class="form-control" oninput="soloNumeros(this)" id="editDNI" maxlength="10" minlength="10" readonly>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="editTelefono" class="form-label">Telefono</label>
-                                                <input type="text" class="form-control" id="editTelefono" maxlength="10" minlength="10">
+                                                <input type="text" class="form-control" oninput="soloNumeros(this)" id="editTelefono" maxlength="10" minlength="10">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="editEmail" class="form-label">Email</label>
@@ -203,7 +203,7 @@ if (!isset($_SESSION['loggedin'])) {
                                     <div class="modal-body">
                                         <!-- Botón para agregar nueva dirección -->
                                         <div class="d-flex justify-content-between mb-3">
-                                        <button id="btnAgregarDireccion" class="btn btn-primary">Agregar Nueva Dirección</button>
+                                            <button id="btnAgregarDireccion" class="btn btn-primary">Agregar Nueva Dirección</button>
                                         </div>
 
                                         <!-- Aquí se mostrarán las direcciones -->
@@ -522,32 +522,33 @@ if (!isset($_SESSION['loggedin'])) {
         });
 
         $(document).on('click', '.ver-direcciones', function() {
-    var clienteId = $(this).data('id'); // Obtener el ID del cliente del botón
+            var clienteId = $(this).data('id'); // Obtener el ID del cliente del botón
 
-    // Cargar direcciones del cliente
-    $.ajax({
-        url: '../actions/get_direcciones.php', // Cambia esta ruta por la correcta en tu backend
-        type: 'GET',
-        data: { idcli: clienteId },
-        success: function(response) {
-            // Mostrar direcciones en el modal
-            $('#direccionesContent').html(response);
-            
-            // Abrir el modal
-            $('#direccionesModal').modal('show');
-        },
-        error: function(xhr, status, error) {
-            console.log('Error al cargar las direcciones:', error);
-        }
-    });
+            // Cargar direcciones del cliente
+            $.ajax({
+                url: '../actions/get_direcciones.php', // Cambia esta ruta por la correcta en tu backend
+                type: 'GET',
+                data: {
+                    idcli: clienteId
+                },
+                success: function(response) {
+                    // Mostrar direcciones en el modal
+                    $('#direccionesContent').html(response);
 
-    // Configurar el botón para agregar nueva dirección
-    $('#btnAgregarDireccion').off('click').on('click', function() {
-        var moda=true;
-        window.location.href = 'direcciones.php?idcli=' + clienteId+'&vermod='+moda; // Redirige a una página para agregar dirección
-    });
-});
+                    // Abrir el modal
+                    $('#direccionesModal').modal('show');
+                },
+                error: function(xhr, status, error) {
+                    console.log('Error al cargar las direcciones:', error);
+                }
+            });
 
+            // Configurar el botón para agregar nueva dirección
+            $('#btnAgregarDireccion').off('click').on('click', function() {
+                var moda = true;
+                window.location.href = 'direcciones.php?idcli=' + clienteId + '&vermod=' + moda; // Redirige a una página para agregar dirección
+            });
+        });
     </script>
     <script>
         // Función para mostrar toast
@@ -606,7 +607,30 @@ if (!isset($_SESSION['loggedin'])) {
             sidebar.classList.add('collapse');
         }
     </script>
+    <script>
+        function soloLetras(input) {
+            // Expresión regular que permite solo letras mayúsculas y espacios
+            const regex = /^[A-Z\s]*$/;
 
+            // Si el valor del input no coincide con la expresión regular, se eliminan los caracteres no permitidos
+            if (!regex.test(input.value)) {
+                input.value = input.value.replace(/[^A-Z\s]/g, '');
+            }
+
+            // Convertir a mayúsculas
+            input.value = input.value.toUpperCase();
+        }
+
+        function soloNumeros(input) {
+            // Expresión regular que permite solo números
+            const regex = /^\d*$/;
+
+            // Si el valor del input no coincide con la expresión regular, se eliminan los caracteres no permitidos
+            if (!regex.test(input.value)) {
+                input.value = input.value.replace(/[^\d]/g, '');
+            }
+        }
+    </script>
 
 </body>
 

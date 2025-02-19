@@ -130,7 +130,7 @@ try {
                                         </div>
                                         <div class="mb-3">
                                             <label for="Numero" class="form-label">Número</label>
-                                            <input type="text" class="form-control" id="Numero" name="Numero">
+                                            <input type="text" class="form-control"  id="Numero" name="Numero">
                                         </div>
                                         <label for="tipo">Tipo de Dirección</label>
                                         <select class="form-select" id="tipo" name="tipo" required>
@@ -142,7 +142,7 @@ try {
                                         </select>
                                         <div class="mb-3">
                                             <label for="CodigoPostal" class="form-label">Código Postal</label>
-                                            <input type="number" class="form-control" pattern="\d+" minlength="6" maxlength="6" title="Solo se permiten números enteros" id="CodigoPostal" name="CodigoPostal" required>
+                                            <input type="number" oninput="soloNumeros(this)" class="form-control"  minlength="6" maxlength="6" title="Solo se permiten números enteros" id="CodigoPostal" name="CodigoPostal" required>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Guardar Dirección</button>
                                     </form>
@@ -228,7 +228,7 @@ try {
                                         </select>
                                         <div class="mb-3">
                                             <label for="CodigoPostal" class="form-label">Código Postal</label>
-                                            <input type="number" class="form-control" id="CodigoPostal" pattern="\d+" maxlength="6" title="Solo se permiten números enteros" name="CodigoPostal" required>
+                                            <input type="number" class="form-control" id="CodigoPostal" oninput="soloNumeros(this)" maxlength="6" title="Solo se permiten números enteros" name="CodigoPostal" required>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Guardar Dirección</button>
                                     </form>
@@ -797,6 +797,30 @@ try {
                 });
             }
         });
+    </script>
+      <script>
+        function soloLetras(input) {
+            // Expresión regular que permite solo letras mayúsculas y espacios
+            const regex = /^[A-Z\s]*$/;
+
+            // Si el valor del input no coincide con la expresión regular, se eliminan los caracteres no permitidos
+            if (!regex.test(input.value)) {
+                input.value = input.value.replace(/[^A-Z\s]/g, '');
+            }
+
+            // Convertir a mayúsculas
+            input.value = input.value.toUpperCase();
+        }
+
+        function soloNumeros(input) {
+            // Expresión regular que permite solo números
+            const regex = /^\d*$/;
+
+            // Si el valor del input no coincide con la expresión regular, se eliminan los caracteres no permitidos
+            if (!regex.test(input.value)) {
+                input.value = input.value.replace(/[^\d]/g, '');
+            }
+        }
     </script>
 </body>
 
