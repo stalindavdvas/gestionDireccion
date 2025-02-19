@@ -36,7 +36,7 @@ jobs:
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
-          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/controlphp:latest
-          docker stop controlphp || true
-          docker rm controlphp || true
-          docker run -d --name controlphp -p 80:80 ${{ secrets.DOCKER_HUB_USERNAME }}/controlphp:latest
+          sudo docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/controlphp:latest
+          sudo docker stop controlphp || true
+          sudo docker rm controlphp || true
+          sudo docker run -d --name controlphp -p 80:80 ${{ secrets.DOCKER_HUB_USERNAME }}/controlphp:latest
