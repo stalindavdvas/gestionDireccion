@@ -609,14 +609,13 @@ if (!isset($_SESSION['loggedin'])) {
     </script>
     <script>
         function soloLetras(input) {
-            // Expresión regular que permite solo letras mayúsculas y espacios
-            const regex = /^[A-Z\s]*$/;
+           // Expresión regular que permite solo letras (mayúsculas y minúsculas) y espacios
+    const regex = /^[A-Za-z\s]*$/;
 
-            // Si el valor del input no coincide con la expresión regular, se eliminan los caracteres no permitidos
-            if (!regex.test(input.value)) {
-                input.value = input.value.replace(/[^A-Z\s]/g, '');
-            }
-
+// Si el valor del input no coincide con la expresión regular, se eliminan los caracteres no permitidos
+if (!regex.test(input.value)) {
+    input.value = input.value.replace(/[^A-Za-z\s]/g, '');
+}
             // Convertir a mayúsculas
             input.value = input.value.toUpperCase();
         }
