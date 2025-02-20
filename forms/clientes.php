@@ -75,7 +75,8 @@ if (!isset($_SESSION['loggedin'])) {
                                         </div>
                                         <div class="mb-3">
                                             <label for="Email" class="form-label">Email</label>
-                                            <input type="email" class="form-control" id="txtEmail" name="Email" required>
+                                            <input type="email" class="form-control" id="txtEmail" name="Email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
+                                            <span id="errorCorreo" style="color: red;"></span>
                                             <p id="errorCorreo"></p>
                                         </div>
                                         <div class="mb-3">
@@ -158,7 +159,8 @@ if (!isset($_SESSION['loggedin'])) {
                                             </div>
                                             <div class="mb-3">
                                                 <label for="editEmail" class="form-label">Email</label>
-                                                <input type="email" class="form-control" id="editEmail">
+                                                <input type="email" class="form-control" id="editEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
+                                                <span id="errorCorreo" style="color: red;"></span>
                                                 <p id="erroreditCorreo"></p>
                                             </div>
                                             <div class="mb-3">
