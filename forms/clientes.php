@@ -495,7 +495,7 @@ if (!isset($_SESSION['loggedin'])) {
                 e.preventDefault();
 
                 const cedula = $('#DNI').val();
-                const email = $('#Email').val();
+                const email = $('#txtEmail').val();
 
                 // Validar cédula
                 if (!validarCedula(cedula)) {
