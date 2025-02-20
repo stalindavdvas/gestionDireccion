@@ -75,7 +75,8 @@ if (!isset($_SESSION['loggedin'])) {
                                         </div>
                                         <div class="mb-3">
                                             <label for="Email" class="form-label">Email</label>
-                                            <input type="email" class="form-control" id="Email" name="Email" required>
+                                            <input type="email" class="form-control" id="txtEmail" name="Email" required>
+                                            <p id="errorCorreo"></p>
                                         </div>
                                         <div class="mb-3">
                                             <label for="Genero" class="form-label">Género</label>
@@ -158,6 +159,7 @@ if (!isset($_SESSION['loggedin'])) {
                                             <div class="mb-3">
                                                 <label for="editEmail" class="form-label">Email</label>
                                                 <input type="email" class="form-control" id="editEmail">
+                                                <p id="erroreditCorreo"></p>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="editGenero" class="form-label">Genero</label>
@@ -629,6 +631,36 @@ if (!regex.test(input.value)) {
                 input.value = input.value.replace(/[^\d]/g, '');
             }
         }
+        document.addEventListener("DOMContentLoaded", function () {
+    const inputCorreo = document.getElementById("txtEmail");
+    const mensajeError = document.getElementById("errorCorreo");
+    const inputEditCorreo = document.getElementById("editEmail");
+    const mensajeEditError = document.getElementById("erroreditCorreo");
+
+    inputCorreo.addEventListener("blur", function () {
+        const correo = inputCorreo.value.trim();
+        const editcorreo = inputEditCorreo.value.trim();
+        const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (correo === "" || regexCorreo.test(correo)) {
+            mensajeError.textContent = "";
+            inputCorreo.style.border = "2px solid green";
+        } else {
+            mensajeError.textContent = "Correo inválido";
+            mensajeError.style.color = "red";
+            inputCorreo.style.border = "2px solid red";
+        }
+        if (editcorreo === "" || regexCorreo.test(editcorreo)) {
+            mensajeEditError.textContent = "";
+            inputEditCorreo.style.border = "2px solid green";
+        } else {
+            mensajeEditError.textContent = "Correo inválido";
+            mensajeEditError.style.color = "red";
+            inputEditCorreo.style.border = "2px solid red";
+        }
+    });
+});
+
     </script>
 
 </body>
