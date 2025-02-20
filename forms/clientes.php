@@ -371,55 +371,65 @@ if (!isset($_SESSION['loggedin'])) {
                 });
             });
 
-            // Manejar el formulario de editar
-            $('#formEditar').on('submit', function(e) {
-                e.preventDefault();
-                var idcli = $('#editIdcli').val();
-                var Pnombre = $('#editPnombre').val();
-                var Snombre = $('#editSnombre').val();
-                var Papellido = $('#editPapellido').val();
-                var Sapellido = $('#editSapellido').val();
-                var DNI = $('#editDNI').val();
-                var Telefono = $('#editTelefono').val();
-                var Email = $('#editEmail').val();
-                var Genero = $('#editGenero').val();
-                var FecNac = $('#editFecNac').val();
+           // Manejar el formulario de editar
+$('#formEditar').on('submit', function(e) {
+    e.preventDefault();
+    
+    var idcli = $('#editIdcli').val();
+    var Pnombre = $('#editPnombre').val();
+    var Snombre = $('#editSnombre').val();
+    var Papellido = $('#editPapellido').val();
+    var Sapellido = $('#editSapellido').val();
+    var DNI = $('#editDNI').val();
+    var Telefono = $('#editTelefono').val();
+    var Email = $('#editEmail').val();
+    var Genero = $('#editGenero').val();
+    var FecNac = $('#editFecNac').val();
 
-                $.ajax({
-                    url: '../actions/update_cliente.php',
-                    type: 'POST',
-                    data: {
-                        idcli: idcli,
-                        Pnombre: Pnombre,
-                        Snombre: Snombre,
-                        Papellido: Papellido,
-                        Sapellido: Sapellido,
-                        DNI: DNI,
-                        Telefono: Telefono,
-                        Email: Email,
-                        Genero: Genero,
-                        FecNac: FecNac
-                    },
-                    success: function(response) {
-                        try {
-                            var result = JSON.parse(response); // Interpretar el JSON correctamente
-                            if (result.status === 'success') {
-                                $('#editarModal').modal('hide'); // Cierra el modal si fue exitoso
-                                // Recargar solo los datos de la tabla
-                                $('#clientesTable').DataTable().ajax.reload(null, false);
-                                showToast('success', result.message); // Muestra mensaje de éxito
-                            } else {
-                                showToast('danger', result.message); // Muestra mensaje de error
-                            }
-                        } catch (error) {
-                            showToast('danger', 'Hubo un problema al procesar la respuesta.');
-                        }
-                    },
-                    error: function() {
-                        showToast('danger', 'Error en la solicitud AJAX.');
-                    }
-                });
-            });
+    // Expresión regular para validar el correo
+    var regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!regexCorreo.test(Email)) {
+        alert('Correo inválido. Por favor, ingrese un correo válido.');
+        $('#editEmail').focus();
+        return; // Detiene la ejecución si el correo es inválido
+    }
+
+    // Si el correo es válido, continuar con la petición AJAX
+    $.ajax({
+        url: '../actions/update_cliente.php',
+        type: 'POST',
+        data: {
+            idcli: idcli,
+            Pnombre: Pnombre,
+            Snombre: Snombre,
+            Papellido: Papellido,
+            Sapellido: Sapellido,
+            DNI: DNI,
+            Telefono: Telefono,
+            Email: Email,
+            Genero: Genero,
+            FecNac: FecNac
+        },
+        success: function(response) {
+            try {
+                var result = JSON.parse(response);
+                if (result.status === 'success') {
+                    $('#editarModal').modal('hide');
+                    $('#clientesTable').DataTable().ajax.reload(null, false);
+                    showToast('success', result.message);
+                } else {
+                    showToast('danger', result.message);
+                }
+            } catch (error) {
+                showToast('danger', 'Hubo un problema al procesar la respuesta.');
+            }
+        },
+        error: function() {
+            showToast('danger', 'Error en la solicitud AJAX.');
+        }
+    });
+});
 
             // Manejar el formulario de eliminar
             $('#formEliminar').on('submit', function(e) {
@@ -633,35 +643,7 @@ if (!regex.test(input.value)) {
                 input.value = input.value.replace(/[^\d]/g, '');
             }
         }
-        document.addEventListener("DOMContentLoaded", function () {
-    const inputCorreo = document.getElementById("txtEmail");
-    const mensajeError = document.getElementById("errorCorreo");
-    const inputEditCorreo = document.getElementById("editEmail");
-    const mensajeEditError = document.getElementById("erroreditCorreo");
-
-    inputCorreo.addEventListener("blur", function () {
-        const correo = inputCorreo.value.trim();
-        const editcorreo = inputEditCorreo.value.trim();
-        const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        if (correo === "" || regexCorreo.test(correo)) {
-            mensajeError.textContent = "";
-            inputCorreo.style.border = "2px solid green";
-        } else {
-            mensajeError.textContent = "Correo inválido";
-            mensajeError.style.color = "red";
-            inputCorreo.style.border = "2px solid red";
-        }
-        if (editcorreo === "" || regexCorreo.test(editcorreo)) {
-            mensajeEditError.textContent = "";
-            inputEditCorreo.style.border = "2px solid green";
-        } else {
-            mensajeEditError.textContent = "Correo inválido";
-            mensajeEditError.style.color = "red";
-            inputEditCorreo.style.border = "2px solid red";
-        }
-    });
-});
+       
 
     </script>
 
