@@ -371,65 +371,65 @@ if (!isset($_SESSION['loggedin'])) {
                 });
             });
 
-           // Manejar el formulario de editar
-$('#formEditar').on('submit', function(e) {
-    e.preventDefault();
-    
-    var idcli = $('#editIdcli').val();
-    var Pnombre = $('#editPnombre').val();
-    var Snombre = $('#editSnombre').val();
-    var Papellido = $('#editPapellido').val();
-    var Sapellido = $('#editSapellido').val();
-    var DNI = $('#editDNI').val();
-    var Telefono = $('#editTelefono').val();
-    var Email = $('#editEmail').val();
-    var Genero = $('#editGenero').val();
-    var FecNac = $('#editFecNac').val();
+            // Manejar el formulario de editar
+            $('#formEditar').on('submit', function(e) {
+                e.preventDefault();
 
-    // Expresión regular para validar el correo
-    var regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                var idcli = $('#editIdcli').val();
+                var Pnombre = $('#editPnombre').val();
+                var Snombre = $('#editSnombre').val();
+                var Papellido = $('#editPapellido').val();
+                var Sapellido = $('#editSapellido').val();
+                var DNI = $('#editDNI').val();
+                var Telefono = $('#editTelefono').val();
+                var Email = $('#editEmail').val();
+                var Genero = $('#editGenero').val();
+                var FecNac = $('#editFecNac').val();
 
-    if (!regexCorreo.test(Email)) {
-        alert('Correo inválido. Por favor, ingrese un correo válido.');
-        $('#editEmail').focus();
-        return; // Detiene la ejecución si el correo es inválido
-    }
+                // Expresión regular para validar el correo
+                var regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    // Si el correo es válido, continuar con la petición AJAX
-    $.ajax({
-        url: '../actions/update_cliente.php',
-        type: 'POST',
-        data: {
-            idcli: idcli,
-            Pnombre: Pnombre,
-            Snombre: Snombre,
-            Papellido: Papellido,
-            Sapellido: Sapellido,
-            DNI: DNI,
-            Telefono: Telefono,
-            Email: Email,
-            Genero: Genero,
-            FecNac: FecNac
-        },
-        success: function(response) {
-            try {
-                var result = JSON.parse(response);
-                if (result.status === 'success') {
-                    $('#editarModal').modal('hide');
-                    $('#clientesTable').DataTable().ajax.reload(null, false);
-                    showToast('success', result.message);
-                } else {
-                    showToast('danger', result.message);
+                if (!regexCorreo.test(Email)) {
+                    alert('Correo inválido. Por favor, ingrese un correo válido.');
+                    $('#editEmail').focus();
+                    return; // Detiene la ejecución si el correo es inválido
                 }
-            } catch (error) {
-                showToast('danger', 'Hubo un problema al procesar la respuesta.');
-            }
-        },
-        error: function() {
-            showToast('danger', 'Error en la solicitud AJAX.');
-        }
-    });
-});
+
+                // Si el correo es válido, continuar con la petición AJAX
+                $.ajax({
+                    url: '../actions/update_cliente.php',
+                    type: 'POST',
+                    data: {
+                        idcli: idcli,
+                        Pnombre: Pnombre,
+                        Snombre: Snombre,
+                        Papellido: Papellido,
+                        Sapellido: Sapellido,
+                        DNI: DNI,
+                        Telefono: Telefono,
+                        Email: Email,
+                        Genero: Genero,
+                        FecNac: FecNac
+                    },
+                    success: function(response) {
+                        try {
+                            var result = JSON.parse(response);
+                            if (result.status === 'success') {
+                                $('#editarModal').modal('hide');
+                                $('#clientesTable').DataTable().ajax.reload(null, false);
+                                showToast('success', result.message);
+                            } else {
+                                showToast('danger', result.message);
+                            }
+                        } catch (error) {
+                            showToast('danger', 'Hubo un problema al procesar la respuesta.');
+                        }
+                    },
+                    error: function() {
+                        showToast('danger', 'Error en la solicitud AJAX.');
+                    }
+                });
+            });
 
             // Manejar el formulario de eliminar
             $('#formEliminar').on('submit', function(e) {
@@ -493,28 +493,42 @@ $('#formEditar').on('submit', function(e) {
             // Manejar el formulario de agregar cliente
             $('#formAgregar').on('submit', function(e) {
                 e.preventDefault();
-                const cedula = $('#DNI').val(); // Captura el valor del campo DNI
+
+                const cedula = $('#DNI').val();
+                const email = $('#Email').val();
+
+                // Validar cédula
                 if (!validarCedula(cedula)) {
                     showToast('danger', 'Cédula inválida');
-                    return; // Detener si la cédula es inválida
+                    return;
                 }
+
+                // Validar correo con expresión regular
+                const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                if (!regexCorreo.test(email)) {
+                    showToast('danger', 'Correo inválido. Por favor, ingrese un correo válido.');
+                    $('#Email').focus();
+                    return;
+                }
+
+                // Si todo es válido, proceder con la solicitud AJAX
                 $.ajax({
                     url: '../actions/add_cliente.php',
                     type: 'POST',
                     data: $(this).serialize(),
                     success: function(response) {
                         try {
-                            var result = JSON.parse(response); // Interpretar el JSON correctamente
+                            var result = JSON.parse(response);
                             if (result.status === 'success') {
-                                $('#agregarModal').modal('hide'); // Cierra el modal si fue exitoso
-                                $('body').removeClass('modal-open'); // Elimina la clase que bloquea la pantalla
-                                $('.modal-backdrop').remove(); // Elimina el fondo oscuro
-                                // Recargar solo los datos de la tabla
+                                $('#agregarModal').modal('hide');
+                                $('body').removeClass('modal-open');
+                                $('.modal-backdrop').remove();
                                 $('#clientesTable').DataTable().ajax.reload(null, false);
                                 $('#formAgregar')[0].reset();
-                                showToast('success', result.message); // Muestra mensaje de éxito
+                                showToast('success', result.message);
                             } else {
-                                showToast('danger', result.message); // Muestra mensaje de error
+                                showToast('danger', result.message);
                             }
                         } catch (error) {
                             showToast('danger', 'Hubo un problema al procesar la respuesta.');
@@ -523,9 +537,9 @@ $('#formEditar').on('submit', function(e) {
                     error: function() {
                         showToast('danger', 'Error en la solicitud AJAX.');
                     }
-
                 });
             });
+
             // Función para mostrar alertas
             function showAlert(type, message) {
                 var alertPlaceholder = $('#alertPlaceholder');
@@ -623,13 +637,13 @@ $('#formEditar').on('submit', function(e) {
     </script>
     <script>
         function soloLetras(input) {
-           // Expresión regular que permite solo letras (mayúsculas y minúsculas) y espacios
-    const regex = /^[A-Za-z\s]*$/;
+            // Expresión regular que permite solo letras (mayúsculas y minúsculas) y espacios
+            const regex = /^[A-Za-z\s]*$/;
 
-// Si el valor del input no coincide con la expresión regular, se eliminan los caracteres no permitidos
-if (!regex.test(input.value)) {
-    input.value = input.value.replace(/[^A-Za-z\s]/g, '');
-}
+            // Si el valor del input no coincide con la expresión regular, se eliminan los caracteres no permitidos
+            if (!regex.test(input.value)) {
+                input.value = input.value.replace(/[^A-Za-z\s]/g, '');
+            }
             // Convertir a mayúsculas
             input.value = input.value.toUpperCase();
         }
@@ -643,8 +657,6 @@ if (!regex.test(input.value)) {
                 input.value = input.value.replace(/[^\d]/g, '');
             }
         }
-       
-
     </script>
 
 </body>
